@@ -23,7 +23,7 @@ export const days = [
   {
     day: 4,
     title: "Erinnerungen",
-    text: "Hast du gemerkt, wie weit du gekommen bist? All die Schritte, die dich hierher geführt haben.",
+    text: "Hast du gemerkt, wie weit du gekommen bist? So vieles liegt hinter dir – und noch Schöneres vor dir.",
     image: "/images/footprints.png",
     unlockDate: "2025-12-04",
   },
@@ -162,8 +162,6 @@ export const days = [
   },
   {
     day: 24,
-    title: "Das große Finale",
-    text: "Frohe Weihnachten, mein Schatz. 💛 Du hast alles geschafft – jetzt wartet das Meer, die Sonne und wir zwei. Deine Reise beginnt. 🌅",
     image: "/images/hat.png",
     unlockDate: "2025-12-24",
     isFinal: true,
