@@ -2,7 +2,7 @@ import "./globals.css";
 import Snowfall from "./components/Snowfall";
 
 export const metadata = {
-  title: "Mein Adventskalender",
+  title: "Isi's Adventskalender",
   description: "24 Tage voller Magie",
 };
 

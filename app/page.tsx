@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { days } from "@/data/days";
 import dayjs from "dayjs";
@@ -67,6 +68,29 @@ export default function HomePage() {
       <p className="text-sm text-yellow-100 mt-10 opacity-80 italic">
         Jeden Tag ein kleines Stück Weihnachtszauber ✨
       </p>
+
+      {/* 💞 Persönliches Foto */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        className="mt-12 max-w-md mx-auto"
+      >
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-[#d4af37]/60 bg-gradient-to-br from-[#8a1d1d]/20 to-[#3b0a0a]/20 backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
+          <Image
+            src="/images/Weihnachtsmarkt.jpg"
+            alt="Wir zwei"
+            width={400}
+            height={300}
+            className="w-full h-auto object-cover"
+            priority
+          />
+        </div>
+        <p className="text-lg text-yellow-100 font-medium italic drop-shadow-lg text-center">
+          Mit dir wird selbst der Winter warm. 💛
+        </p>
+      </motion.div>
 
       <style jsx global>{`
         @keyframes snow {
