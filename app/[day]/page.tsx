@@ -112,7 +112,7 @@ export default function DayPage({
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1.2 }}
                     >
-                        Frohe Weihnachten, mein Herz 💛
+                        Frohe Weihnachten, mein Schatz 💛
                     </motion.h2>
 
                     <motion.p
@@ -139,8 +139,16 @@ export default function DayPage({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 5, duration: 1.5 }}
                     >
-                        🌅 Deine Reise beginnt.
+                        🌅 Unsere Reise beginnt. 🚢
                     </motion.h3>
+
+                    <motion.img
+                        src="./images/Logo_AIDA_Cruises.svg"
+                        className="w-26 h-26 mt-4 mx-auto opacity-90"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 5, duration: 1.5 }}
+                    />
                 </div>
 
                 <motion.button
