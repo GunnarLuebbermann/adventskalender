@@ -1,9 +1,10 @@
 "use client";
-import { use } from "react";
+import { use, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { days } from "@/data/days";
 import dayjs from "dayjs";
+import SpecialGiftBox from "../components/SpecialGiftBox";
 
 export default function DayPage({
     params,
@@ -23,6 +24,62 @@ export default function DayPage({
         dayjs().isSame(dayjs(content.unlockDate), "day");
 
     if (!unlocked) router.push("/");
+
+    if (content.isSpecial) {
+        const [opened, setOpened] = useState(false);
+
+        return (
+            <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#4a0e0e] via-[#741c1c] to-[#b32a2a] p-6 text-center text-white font-serif">
+                    <motion.div
+                        initial={{ rotateY: 180, opacity: 0 }}
+                        animate={{ rotateY: 0, opacity: 1 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="bg-[#ffffff10] backdrop-blur-sm rounded-3xl shadow-2xl p-8 max-w-sm border border-[#d4af37]"
+                    >
+                        <motion.img
+                            src={content.image}
+                            alt=""
+                            className="w-24 h-24 mx-auto mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.4, duration: 0.5 }}
+                        />
+
+                        <motion.h2
+                            className="text-2xl font-bold mb-3 text-yellow-200"
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            {content.title}
+                        </motion.h2>
+
+                        <motion.p
+                            className="text-lg text-yellow-50 italic"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.7 }}
+                        >
+                            {content.text}
+                        </motion.p>
+
+                        {/* 🎁 Spezieller Geschenkbereich */}
+                        {content.isSpecial && (
+                            <SpecialGiftBox
+                                boxImage={"/images/giftbox_main.png"}
+                                revealImage={content.specialImage}
+                            />
+                        )}
+                    </motion.div>
+                <button
+                    onClick={() => router.push("/")}
+                    className="mt-8 px-6 py-2 bg-[#d4af37] text-[#3b0a0a] rounded-full shadow-lg font-semibold hover:bg-[#f5d76e] transition"
+                >
+                    🎁 Zurück zum Kalender
+                </button>
+            </main>
+        );
+    }
 
     if (!content.isFinal) {
         return (
@@ -139,7 +196,7 @@ export default function DayPage({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 5, duration: 1.5 }}
                     >
-                        🌅 Unsere Reise beginnt. 🚢
+                        🌅 Unsere Reise beginnt bald. 🚢
                     </motion.h3>
 
                     <motion.img

@@ -40,6 +40,8 @@ export const days = [
     text: "Heute ist Nikolaus – vielleicht steckt mehr in kleinen Überraschungen, als man denkt.",
     image: "/images/boot.png",
     unlockDate: "2025-12-06",
+    isSpecial: true,
+    specialImage: "/images/rituals_set.jpg",
   },
   {
     day: 7,
@@ -82,6 +84,8 @@ export const days = [
     text: "Etwas rückt näher. Vielleicht hast du es schon geahnt?",
     image: "/images/question.png",
     unlockDate: "2025-12-12",
+    isSpecial: true,
+    specialImage: "/images/spiel.jpg",
   },
   {
     day: 13,
