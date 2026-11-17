@@ -6,8 +6,8 @@ import { days, type Day, type Voucher } from "@/data/days";
 import SpecialGiftBox from "../components/SpecialGiftBox";
 import ScratchCard from "../components/ScratchCard";
 import { pseudoRandom } from "@/lib/pseudoRandom";
-import { isUnlocked, usePreview, withPreview } from "@/lib/unlock";
-import { markOpened, markScratched, useIsClient, useScratchedDays } from "@/lib/clientState";
+import { isUnlocked, usePreview, useToday, withPreview } from "@/lib/unlock";
+import { markOpened, markScratched, useScratchedDays } from "@/lib/clientState";
 
 export default function DayPage({
     params,
@@ -19,11 +19,12 @@ export default function DayPage({
     const router = useRouter();
     const { day } = use(params); // 👈 Promise auflösen mit React.use()
     const preview = usePreview(searchParams);
-    const isClient = useIsClient();
+    const today = useToday(); // null bis der Browser übernimmt
+    const isClient = today !== null;
 
     const content = days.find((d) => d.day === Number(day));
     // Datum erst im Browser prüfen (Zeitzone der Nutzerin, nicht des Servers)
-    const unlocked = isClient && !!content && isUnlocked(content.unlockDate, preview);
+    const unlocked = isClient && !!content && isUnlocked(content.unlockDate, preview, today);
     const home = withPreview("/", preview);
 
     useEffect(() => {
