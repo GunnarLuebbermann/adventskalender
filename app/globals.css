@@ -1,28 +1,36 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* 🎨 Farben kommen aus lib/theme.ts (als CSS-Variablen auf <html>, siehe layout.tsx) */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-bg-4: var(--bg-4);
+  --color-door-1: var(--door-1);
+  --color-door-2: var(--door-2);
+  --color-opened-1: var(--opened-1);
+  --color-opened-2: var(--opened-2);
+  --color-locked: var(--locked);
+  --color-locked-border: var(--locked-border);
+  /* dunkle Schrift auf Gold */
+  --color-ink: var(--bg-1);
+  --color-gold: #d4af37;
+  --color-gold-light: #f5d76e;
+  --color-gold-dark: #b8912b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /* gleiche Farbe wie der Kalender – kein weißer Rand beim Überscrollen auf dem iPhone */
+  background: var(--bg-1);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-1);
+  color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
+  /* Platz für Notch / Statusleiste, wenn als App vom Homescreen geöffnet */
+  padding-top: env(safe-area-inset-top);
 }
 
 /* ❄️ Snowfall Styles */

@@ -1,113 +1,31 @@
-"use client";
+import fs from "node:fs";
+import path from "node:path";
+import Calendar from "./components/Calendar";
 
-import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { days } from "@/data/days";
-import dayjs from "dayjs";
+// 📸 Alle Bilder in diesem Ordner landen automatisch in der Zufallsauswahl
+// für das Foto auf der Startseite. Einfach Dateien hinzufügen oder löschen.
+const PHOTO_DIR = path.join(process.cwd(), "public", "images", "startseite");
+const PHOTO_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".avif"];
 
-export default function HomePage() {
-  const today = dayjs();
+function findPhotos(): string[] {
+  try {
+    return fs
+      .readdirSync(PHOTO_DIR)
+      .filter((file) => PHOTO_EXTENSIONS.includes(path.extname(file).toLowerCase()))
+      .sort()
+      .map((file) => `/images/startseite/${encodeURIComponent(file)}`);
+  } catch {
+    return [];
+  }
+}
 
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-[#3b0a0a] via-[#5e1515] to-[#8a1d1d] text-center p-6 relative overflow-hidden">
-      {/* ✨ leichte Schneefall-Deko */}
-      <div className="absolute inset-0 pointer-events-none animate-[snow_15s_linear_infinite] opacity-40 bg-[url('/images/snow.png')] bg-cover"></div>
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+const NO_PARAMS: SearchParams = Promise.resolve({});
 
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-4xl font-bold text-yellow-200 mb-8 font-serif drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]"
-      >
-        🎁 🎄 Isi's Adventskalender
-      </motion.h1>
-
-      <motion.div
-        className="grid grid-cols-4 sm:grid-cols-6 gap-3 justify-items-center relative z-10"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: { transition: { staggerChildren: 0.05 } },
-        }}
-      >
-        {days.map((d) => {
-          const unlocked =
-            today.isAfter(dayjs(d.unlockDate)) ||
-            today.isSame(dayjs(d.unlockDate), "day");
-
-          return (
-            <motion.div
-              key={d.day}
-              className={`aspect-square w-20 sm:w-24 rounded-2xl border-2 flex flex-col items-center justify-center shadow-lg transition-all duration-300 glow
-    ${unlocked
-                  ? "bg-gradient-to-br from-[#a00000] to-[#e03b3b] border-[#d4af37] text-white cursor-pointer"
-                  : "bg-[#3d0b0b]/40 border-[#5a1d1d] text-gray-400 cursor-not-allowed"
-                }`}
-              whileHover={{ scale: 1.05 }}
-            >
-              <Link href={unlocked ? `/${d.day}` : "#"} className="flex flex-col items-center">
-                <span className="text-xl font-bold drop-shadow-sm">{d.day}</span>
-                {unlocked && (
-                  <motion.img
-                    src={d.image}
-                    alt=""
-                    className="w-8 h-8 mt-2 opacity-90"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.1 }}
-                  />
-                )}
-              </Link>
-            </motion.div>
-          );
-        })}
-      </motion.div>
-
-      <p className="text-sm text-yellow-100 mt-10 opacity-80 italic">
-        Jeden Tag ein kleines Stück Weihnachtszauber ✨
-      </p>
-
-      {/* 💞 Persönliches Foto */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="mt-12 max-w-md mx-auto"
-      >
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-[#d4af37]/60 bg-gradient-to-br from-[#8a1d1d]/20 to-[#3b0a0a]/20 backdrop-blur-sm">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
-          <Image
-            src="/images/Weihnachtsmarkt.jpg"
-            alt="Wir zwei"
-            width={400}
-            height={300}
-            className="w-full h-auto object-cover"
-            priority
-          />
-        </div>
-        <p className="text-lg text-yellow-100 font-medium italic drop-shadow-lg text-center">
-          Mit dir wird selbst der Winter warm. 💛
-        </p>
-      </motion.div>
-
-      <motion.footer
-        className="mt-16 text-xs text-yellow-100/60"
-      >
-        Created with 💛 by Gunnar
-      </motion.footer>
-
-      <style jsx global>{`
-        @keyframes snow {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 0 1000px;
-          }
-        }
-      `}</style>
-    </main>
-  );
+export default function HomePage(props: { searchParams: SearchParams }) {
+  // ?preview gibt es nur lokal (npm run dev). In Production die URL-Parameter gar nicht
+  // anfassen – sonst wird die Seite dynamisch statt beim Build fertig erzeugt, und
+  // auf Vercel lässt sich der Bilder-Ordner zur Laufzeit nicht mehr lesen.
+  const searchParams = process.env.NODE_ENV === "development" ? props.searchParams : NO_PARAMS;
+  return <Calendar searchParams={searchParams} photos={findPhotos()} />;
 }

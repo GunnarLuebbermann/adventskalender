@@ -30,7 +30,7 @@ export default function SpecialGiftBox({ boxImage, revealImage }: Props) {
           <img
             src={revealImage}
             alt="Echtes Geschenk"
-            className="w-56 h-auto mx-auto rounded-2xl border border-[#d4af37] shadow-lg blur-sm"
+            className="w-56 h-auto mx-auto rounded-2xl border border-gold shadow-lg blur-sm"
           />
           <p className="text-sm text-yellow-100 italic mt-3">
             Dieses Geschenk bekommst du heute in echt 💛

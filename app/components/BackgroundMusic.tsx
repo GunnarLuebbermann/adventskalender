@@ -82,7 +82,7 @@ export default function BackgroundMusic() {
             <audio ref={audioRef} onEnded={handleEnded} preload="auto" />
             <button
                 onClick={toggleMusic}
-                className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-[#d4af37] text-[#3b0a0a] px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-[#f5d76e] transition"
+                className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-6 z-50 flex items-center gap-2 bg-gold text-ink px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-gold-light transition"
             >
                 <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center ${isPlaying ? "animate-spin" : ""
